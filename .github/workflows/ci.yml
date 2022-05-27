@@ -40,8 +40,11 @@ jobs:
         DB_DATABASE: database/database.sqlite
       run: vendor/bin/phpunit
 
+    - run: echo ${{github.ref}}
+    
     - name: Deploy using ssh
-      if: ${{ success() }}
+      if: ${{ success() }} &&
+      github.ref == 'refs/heads/staging'
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
